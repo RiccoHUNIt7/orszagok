@@ -5,6 +5,9 @@ const waitTimeAfterAnswer = 3000;
 const flagHolder = document.getElementById('flagImage');
 const buttons = document.querySelectorAll('.button');
 
+const correctAnswersSpan = document.getElementById('helyesSzamlalo');
+const incorrectAnswersSpan = document.getElementById('helytelenSzamlalo');
+
 let countryList = [];
 
 let currentCountryIndex = -1;
@@ -117,6 +120,7 @@ function handleButtons() {
                 handleButtonColouring(button, false);
                 incorrectAnswers++;
             }
+            updateAnswerCounter();
             nextQuestion();
         }
     });
@@ -124,7 +128,7 @@ function handleButtons() {
 
 function handleButtonColouring(button, isCorrect) {
     if (isCorrect) {
-        button.style.backgroundColor = 'green';
+        button.style.backgroundColor = 'rgb(0, 211, 18)';
     } else {
         button.style.backgroundColor = 'red';
     }
@@ -134,6 +138,11 @@ function resetButtonColours() {
     buttons.forEach(button => {
         button.style.backgroundColor = '';
     });
+}
+
+function updateAnswerCounter() {
+    correctAnswersSpan.textContent = correctAnswers;
+    incorrectAnswersSpan.textContent = incorrectAnswers;
 }
 
 function nextQuestion() {
