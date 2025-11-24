@@ -1,5 +1,7 @@
 const url = 'https://restcountries.com/v3.1/all?fields=name,capital,flags';
 
+const waitTimeAfterAnswer = 3000;
+
 const flagHolder = document.getElementById('flagImage');
 const buttons = document.querySelectorAll('.button');
 
@@ -10,6 +12,9 @@ let prevousCountryIndex = -1;
 
 let correctCapital = '';
 let capitals = [];
+
+let correctAnswers = 0;
+let incorrectAnswers = 0;
 
 function fetchCountries() {
     fetch(url)
@@ -52,17 +57,7 @@ function loadQuestion() {
 
     capitals.sort(() => Math.random() - 0.5);
 
-    buttons.forEach((button, index) => {
-        button.textContent = capitals[index];
-        button.onclick = () => {
-            if (button.textContent === correctCapital) {
-                alert('Helyes válasz!');
-            } else {
-                alert(`Helytelen válasz! A helyes válasz: ${correctCapital}`);
-            }
-            loadQuestion();
-        }
-    });
+    handleButtons();
 }
 
 function getNewIndex() {
@@ -84,8 +79,8 @@ function getNewCapitals() {
     while (capitals.length < 4) {
         let randomIndex = Math.floor(Math.random() * countryList.length);
         let capital = countryList[randomIndex].capital;
-        if (capitalAlreadyUsed(capital)) {
-            continue;
+        if (capitalAlreadyUsed(capital) || hasNoCapital(capital)) {
+            continue;      
         }
         addUsedCapital(capital);
     }
@@ -95,12 +90,58 @@ function capitalAlreadyUsed(capital) {
     return capitals.includes(capital);
 }
 
+function hasNoCapital(capital) {
+    return capital == undefined || capital === 'N/A';
+}
+
 function addUsedCapital(capital) {
     capitals.push(capital);
 }
 
 function clearCapitals() {
     capitals = [];
+}
+
+function handleButtons() {
+    let buttonClicked = false;
+    buttons.forEach((button, index) => {
+        button.textContent = capitals[index];
+
+        button.onclick = () => {
+            if (buttonClicked) return;
+            buttonClicked = true;
+            if (button.textContent === correctCapital) {
+                handleButtonColouring(button, true);
+                correctAnswers++;
+            } else {
+                handleButtonColouring(button, false);
+                incorrectAnswers++;
+            }
+            nextQuestion();
+        }
+    });
+}
+
+function handleButtonColouring(button, isCorrect) {
+    if (isCorrect) {
+        button.style.backgroundColor = 'green';
+    } else {
+        button.style.backgroundColor = 'red';
+    }
+}
+
+function resetButtonColours() {
+    buttons.forEach(button => {
+        button.style.backgroundColor = '';
+    });
+}
+
+function nextQuestion() {
+    setTimeout(() => {
+        resetButtonColours();
+        loadQuestion();
+    }, timeoutDuration = waitTimeAfterAnswer);
+
 }
 
 document.addEventListener('DOMContentLoaded', () => {
