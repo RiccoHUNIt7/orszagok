@@ -12,6 +12,7 @@ body {
     text-align: center;
     margin: 0;
     padding: 0;
+    color: rgb(225, 225, 225);
 }
 img {
     width: auto;
@@ -26,10 +27,11 @@ button {
     cursor: pointer;
     border: none;
     border-radius: 5px;
-    background-color: rgba(189, 189, 189, 0.573);
+    background-color: #519e5f;
+    color: rgb(225, 225, 225) ;
 }
 button:hover {
-    background-color: #808080;
+    background-color: #36673f;
 }
 #buttonContainer {
     display: flex;
@@ -41,6 +43,7 @@ button:hover {
     width: 1250px;
     margin: auto;
     margin-top: 20px;
+    margin-bottom: 20px;
     align-content: center;
     background-color: #91b191ab;
 
@@ -48,7 +51,7 @@ button:hover {
 #imgContainer {
     margin-top: 100px;
     width: 1750px;
-    height: 700px;
+    height: 800px;
     display: flex;
     flex-direction: column;
     align-items: center;    
@@ -57,4 +60,13 @@ button:hover {
     background-color: #6e926e;
 
 }
-
+#szamlalok {
+    font-size: 1em;
+    color: white;
+    display: flex;
+    flex-direction: row;
+}
+#szamlalok p {
+    margin: 0 15px;
+}
+#
